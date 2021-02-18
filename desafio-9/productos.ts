@@ -1,7 +1,7 @@
 import express from 'express';
 const app = express()
 var router = express.Router()
-app.use(express.static(__dirname + 'public'));
+
 
 
 let productos : any [] = []
@@ -26,7 +26,7 @@ router.get('/productos', (req,res) => {
     productos.length < 0 ? res.sendStatus(404) : res.send(productos)
 })
 router.get('/agregarProductos', (req,res) => {
-    res.sendFile('index.html', {root: './public'})
+    res.sendFile(__dirname+'/public/index.html');
 
 })
 
