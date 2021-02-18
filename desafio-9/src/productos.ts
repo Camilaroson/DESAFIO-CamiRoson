@@ -1,6 +1,8 @@
 import express from 'express';
 const app = express()
 var router = express.Router()
+app.use(express.static(__dirname + 'public'));
+
 
 let productos : any [] = []
 
@@ -8,11 +10,13 @@ class NuevoProducto {
     id : number
     titulo : string
     precio : number
+    imagen : string
 
-    constructor(id:number, titulo:string, precio:number){
+    constructor(id:number, titulo:string, precio:number,imagen:string){
         this.id = id
         this.titulo = titulo
         this.precio = precio
+        this.imagen = imagen
     
 }
 
@@ -21,6 +25,11 @@ class NuevoProducto {
 router.get('/productos', (req,res) => {
     productos.length < 0 ? res.sendStatus(404) : res.send(productos)
 })
+router.get('/agregarProductos', (req,res) => {
+    res.sendFile('index.html', {root: './public'})
+
+})
+
 
 router.get('/productos/:id',(req,res)=>{
     const id = req.params.id
@@ -29,8 +38,8 @@ router.get('/productos/:id',(req,res)=>{
 })
 
 router.post('/productos',(req,res) =>{
-    const {id,titulo, precio} = req.body
-    const producto = new NuevoProducto(id,titulo,precio)
+    const {id,titulo, precio,imagen} = req.body
+    const producto = new NuevoProducto(id,titulo,precio,imagen)
     producto.id = productos.length+1
     productos.push(producto)
     res.sendStatus(201)
